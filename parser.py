@@ -25,7 +25,7 @@ def parse(matr: str) -> list:
 
 
 def go_next(chose: str) -> list:
-    chose = chose[chose.find("amp") - 3::]
+    chose = chose[chose.find("amp") - 4::]
     end = chose.find("\end")
     matr = chose[:end]
     chose = chose[end::]
@@ -34,7 +34,7 @@ def go_next(chose: str) -> list:
 
 def parse_all_statements(number_of_problems: int, b: str) -> list:
     all_tasks = []
-    chose = b[b.find("amp") - 3::]
+    chose = b[b.find("amp") - 4::]
     end = chose.find("\end")
     matr = chose[:end]
     all_tasks.append(parse(matr))
@@ -50,6 +50,8 @@ def main():
     n = int(input("Number of problems:"))
     a = parse_all_statements(n, b)
     print(a)
+    which = int(input("which matrix"))
+    print(a[which])
 
 
 if __name__ == "__main__":
