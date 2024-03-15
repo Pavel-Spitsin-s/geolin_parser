@@ -7,7 +7,7 @@
 1. Клонируйте репозиторий:
 
 ```bash
-git clone[https://github.com/yourusername/yourrepository.git](https://github.com/Pavel-Spitsin-s/geolin_parser.git
+git clone https://github.com/yourusername/yourrepository.git](https://github.com/Pavel-Spitsin-s/geolin_parser.git
 ```
 
 2. Установите зависимости:
