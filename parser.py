@@ -1,12 +1,9 @@
-from bs4 import BeautifulSoup
-import re
-import requests
-
-url = "https://geolin.ru/milestones/home/event/1878"
-r = requests.get(url)
-f = open("cringe.html")
-soup = BeautifulSoup(f, "html.parser")
-b = str(soup)
+f = open("cringe.html", "r")
+soup = f
+b = str()
+for i in f.readlines():
+    b += i
+print(b)
 
 
 def parse(matr: str) -> list:
