@@ -10,12 +10,6 @@
 git clone https://github.com/yourusername/yourrepository.git](https://github.com/Pavel-Spitsin-s/geolin_parser.git
 ```
 
-2. Установите зависимости:
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Использование
 
 1. Обработайте тензоры и выполните симметризацию/альтернирование:
