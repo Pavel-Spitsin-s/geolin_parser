@@ -46,13 +46,11 @@ def parse_all_statements(number_of_problems: int, b: str) -> list:
     return all_tasks
 
 
-def main():
+def get_results():
     n = int(input("Number of problems:"))
     a = parse_all_statements(n, b)
-    print(a)
-    which = int(input("which matrix"))
-    print(a[which])
+    return a
 
 
 if __name__ == "__main__":
-    main()
+    pass
