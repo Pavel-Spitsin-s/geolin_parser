@@ -148,6 +148,22 @@ def get_res(test, BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS, FIXED, isSym):
                       COLS)
 
 
+def beautify(s: str, n: int) -> str:
+    a = s.split(",")
+    ans = ""
+    ans += "["
+    ind = 1
+    for i in a:
+        ans += i.strip()
+        if ind % n == 0:
+            ans += "; "
+        else:
+            ans += ", "
+        ind += 1
+    ans += "]"
+    return ans
+
+
 def solve_problems():
     problem_set = parser.get_results()
     cnt_of_problems = len(problem_set)
@@ -161,7 +177,10 @@ def solve_problems():
         print("Input FIXED: 0 - false, 1 - true")
         FIXED = list(map(int, input().split()))
         isSym = int(input("Input 1 if you want sym 0 - if you want asym"))
-        get_res(problem_set[i], BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS, FIXED, isSym)
+        in_column = BIG_N * BIG_COLUMNS * COLS
+        a: str = get_res(problem_set[i], BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS, FIXED, isSym)
+        print(beautify(a, in_column))
+
 
 
 if __name__ == "__main__":
