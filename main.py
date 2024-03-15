@@ -1,9 +1,17 @@
-from itertools import *
-from math import factorial
-import fractions
 import parser
 
+def gcd(a, b): 
+    if b==0:
+        return a
+    else:
+        return gcd(b,a%b)
 
+def fraction(a: int, b: int) -> list:
+    t = gcd(a, b)
+    return [a / t, b / t]
+def fact(n):
+    if n == 0: return 1
+    return n * fact(n - 1)
 # BIG_N - типа COLUMNS
 def make5dim(BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS):
     res = []
@@ -19,6 +27,28 @@ def make5dim(BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS):
                         res[l][i][j][f].append(0)
     return res
 
+def permutations(iterable, r=None):
+    pool = tuple(iterable)
+    n = len(pool)
+    r = n if r is None else r
+    if r > n:
+        return
+    indices = list(range(n))
+    cycles = list(range(n, n-r, -1))
+    yield tuple(pool[i] for i in indices[:r])
+    while n:
+        for i in reversed(range(r)):
+            cycles[i] -= 1
+            if cycles[i] == 0:
+                indices[i:] = indices[i+1:] + indices[i:i+1]
+                cycles[i] = n - i
+            else:
+                j = cycles[i]
+                indices[i], indices[-j] = indices[-j], indices[i]
+                yield tuple(pool[i] for i in indices[:r])
+                break
+        else:
+            return
 
 def to5dim(arr, BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS):
     res = make5dim(BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS)
@@ -44,7 +74,7 @@ def cnt_inversion(A):
 
 def sym(arr, BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS, fixed):
     DIM = 5
-    cnt = factorial(DIM - sum(fixed))
+    cnt = fact(DIM - sum(fixed))
     res = []
     SAMPLE_DIM = [i for i in range(DIM)]
     res = make5dim(BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS)
@@ -65,7 +95,7 @@ def sym(arr, BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS, fixed):
                                 curp.append(perm[_[i]])
                             if bad: continue
                             ans += arr[curp[0]][curp[1]][curp[2]][curp[3]][curp[4]]
-                        res[bn][bc][br][r][c] = fractions.Fraction(ans, cnt)
+                        res[bn][bc][br][r][c] = fraction(ans, cnt)
     return res
 
 
@@ -96,7 +126,7 @@ def asym(arr, BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS, fixed):
                             else:
                                 ans -= arr[curp[0]][curp[1]][curp[2]][curp[3]][curp[4]]
 
-                        res[bn][bc][br][r][c] = fractions.Fraction(ans, cnt)
+                        res[bn][bc][br][r][c] = fraction(ans, cnt)
     return res
 
 
@@ -104,16 +134,16 @@ def pretty_ans(arr):
     res = ""
     for i in arr:
         res += i + ', '
-    return res
+    return res[:-2]
 
 
 def to_ans2(arr):
     res = []
     for f in arr:
-        if f.denominator == 1:
-            res.append(str(f.numerator))
+        if f[1] == 1:
+            res.append(str(int(f[0])))
         else:
-            res.append(str(f.numerator) + "/" + str(f.denominator))
+            res.append(str(int(f[0])) + "/" + str(int(f[1])))
     return pretty_ans(res)
 
 
@@ -160,7 +190,7 @@ def beautify(s: str, n: int) -> str:
         else:
             ans += ", "
         ind += 1
-    ans += "]"
+    ans = ans[:-2] + "]"
     return ans
 
 
@@ -169,14 +199,14 @@ def solve_problems():
     cnt_of_problems = len(problem_set)
     for i in range(cnt_of_problems):
         #BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS, FIXED, isSym
-        BIG_N = int(input(f"Input BIG_N in {i} problem"))
-        BIG_ROWS = int(input(f"Input BIG_ROWS in {i} problem"))
-        BIG_COLUMNS = int(input(f"Input BIG_COLUMNS in {i} problem"))
-        ROWS = int(input(f"Input ROWS in {i} problem"))
-        COLS = int(input(f"Input COLS in {i} problem"))
-        print("Input FIXED: 0 - false, 1 - true")
+        BIG_N = int(input(f"Input BIG_N in {i} problem "))
+        BIG_ROWS = int(input(f"Input BIG_ROWS in {i} problem "))
+        BIG_COLUMNS = int(input(f"Input BIG_COLUMNS in {i} problem "))
+        ROWS = int(input(f"Input ROWS in {i} problem "))
+        COLS = int(input(f"Input COLS in {i} problem "))
+        print("Input FIXED: 0 - false, 1 - true ")
         FIXED = list(map(int, input().split()))
-        isSym = int(input("Input 1 if you want sym 0 - if you want asym"))
+        isSym = int(input("Input 1 if you want sym 0 - if you want asym "))
         in_column = BIG_N * BIG_COLUMNS * COLS
         a: str = get_res(problem_set[i], BIG_N, BIG_ROWS, BIG_COLUMNS, ROWS, COLS, FIXED, isSym)
         print(beautify(a, in_column))
