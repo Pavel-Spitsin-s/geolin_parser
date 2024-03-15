@@ -3,8 +3,6 @@ soup = f
 b = str()
 for i in f.readlines():
     b += i
-print(b)
-
 
 def parse(matr: str) -> list:
     a = []
